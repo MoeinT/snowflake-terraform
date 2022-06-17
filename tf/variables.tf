@@ -1,19 +1,14 @@
-variable "password" {
+variable "snowflake_password" {
   type      = string
   sensitive = true
 }
 
-variable "username" {
+variable "snowflake_username" {
   type      = string
   sensitive = true
 }
 
-variable "account" {
-  type      = string
-  sensitive = true
-}
-
-variable "amin_pass" {
+variable "snowflake_account" {
   type      = string
   sensitive = true
 }
