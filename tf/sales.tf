@@ -13,30 +13,20 @@ resource "snowflake_role_grants" "SALES-GRANT" {
   ]
 }
 
-#Create a new sales warehouse called SALES_XSMALL
-resource "snowflake_warehouse" "SALES_XSMALL" {
-  name                = "SALES_XSMALL"
-  comment             = "A XS-WH for all in Sales"
-  warehouse_size      = "X-small"
-  auto_resume         = true
-  auto_suspend        = 60
-  max_cluster_count   = 3
-  min_cluster_count   = 1
-  scaling_policy      = "ECONOMY"
-  initially_suspended = true
+module "SALES_MEDIUM_WH" {
+  source                  = "./warehouse"
+  warehouse_name          = "SALES_MEDIUM_WH"
+  warehouse_size          = "Medium"
+  snowflake_role = [snowflake_role.SALES.name]
 }
 
-#Grant usage of it to the sales role
-resource "snowflake_warehouse_grant" "GRANT-WH-SALES" {
-  warehouse_name = snowflake_warehouse.SALES_XSMALL.name
-  privilege      = "USAGE"
-
-  roles = [
-    snowflake_role.SALES.name
-  ]
-
-  with_grant_option = false
+module "SALES_X_SMALL_WH" {
+  source                  = "./warehouse"
+  warehouse_name          = "SALES_XSMALL"
+  warehouse_size          = "X-small" 
+  snowflake_role = [snowflake_role.SALES.name]
 }
+
 
 #Create a DB for SALES
 resource "snowflake_database" "DB-SALES" {
@@ -98,7 +88,6 @@ resource "snowflake_view" "CURRENT_EMPLOYEEES" {
     select * from ${snowflake_table.EMPLOYEES.name} where "CURRENT" = true;
 SQL
 }
-
 
 #Granting people in Sales access to the schema defined above
 resource "snowflake_schema_grant" "GRANT-SCHEMA-SALES" {

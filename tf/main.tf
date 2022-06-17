@@ -8,8 +8,8 @@ terraform {
 }
 
 provider "snowflake" {
-  username = var.username
-  account  = var.account
+  username = var.snowflake_username
+  account  = var.snowflake_account
   role     = "ACCOUNTADMIN"
-  password = var.password
+  password = var.snowflake_password
 }
