@@ -42,8 +42,8 @@ variable "warehouse_grant_priviledge" {
   default = "USAGE"
 }
 
-variable "warehouse_roles" {
-  type = list(string)
+variable "warehouse_grant_roles" {
+  type = map(any)
 }
 
 variable "snowflake_role_with_grant_option" {

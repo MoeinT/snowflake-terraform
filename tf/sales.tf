@@ -1,45 +1,45 @@
-#Create a Sales role
-resource "snowflake_role" "SALES" {
-  name    = "SALES"
-  comment = "A role for all in Sales"
-}
+# #Create a Sales role
+# resource "snowflake_role" "SALES" {
+#   name    = "SALES"
+#   comment = "A role for all in Sales"
+# }
 
-#Grant the sales role to the accountadmin role
-resource "snowflake_role_grants" "SALES-GRANT" {
-  role_name = snowflake_role.SALES.name
+# #Grant the sales role to the accountadmin role
+# resource "snowflake_role_grants" "SALES-GRANT" {
+#   role_name = snowflake_role.SALES.name
 
-  roles = [
-    "ACCOUNTADMIN"
-  ]
-}
+#   roles = [
+#     "ACCOUNTADMIN"
+#   ]
+# }
 
-module "SALES_MEDIUM_WH" {
-  source          = "./warehouse"
-  warehouse_name  = "SALES_MEDIUM_WH"
-  warehouse_size  = "Medium"
-  warehouse_roles = [snowflake_role.SALES.name]
-}
+# module "SALES_MEDIUM_WH" {
+#   source          = "./warehouse"
+#   warehouse_name  = "SALES_MEDIUM_WH"
+#   warehouse_size  = "Medium"
+#   warehouse_roles = [snowflake_role.SALES.name]
+# }
 
-module "SALES_X_SMALL_WH" {
-  source          = "./warehouse"
-  warehouse_name  = "SALES_XSMALL"
-  warehouse_size  = "X-small"
-  warehouse_roles = [snowflake_role.SALES.name]
-}
+# module "SALES_X_SMALL_WH" {
+#   source          = "./warehouse"
+#   warehouse_name  = "SALES_XSMALL"
+#   warehouse_size  = "X-small"
+#   warehouse_role_grants = [snowflake_role.SALES.name]
+# }
 
-#Create a database and grant usage access to it
-module "DB_SALES" {
-  source   = "./database"
-  DB_name  = "DB-SALES"
-  DB_roles = [snowflake_role.SALES.name]
-}
+# #Create a database and grant usage access to it
+# module "DB_SALES" {
+#   source   = "./database"
+#   DB_name  = "DB-SALES"
+#   DB_roles = [snowflake_role.SALES.name]
+# }
 
-module "SCHEMA_SALES" {
-  source                = "./schema"
-  schema_name           = "SALES-SCHEMA"
-  schema_databasename   = module.DB_SALES.DB_name
-  schema_snowflake_role = [snowflake_role.SALES.name]
-}
+# module "SCHEMA_SALES" {
+#   source                = "./schema"
+#   schema_name           = "SALES-SCHEMA"
+#   schema_databasename   = module.DB_SALES.DB_name
+#   warehouse_role_grants = [snowflake_role.SALES.name]
+# }
 
 # #Create a Sample Table within the above Schema
 # resource "snowflake_table" "EMPLOYEES" {
