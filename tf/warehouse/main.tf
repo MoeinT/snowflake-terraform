@@ -22,8 +22,15 @@ resource "snowflake_warehouse" "WAREHOUSE" {
 
 #Giving grants to the warehouse whenever the module is called
 resource "snowflake_warehouse_grant" "GRANT-WAREHOUSE" {
+  for_each          = var.warehouse_grant_roles
   warehouse_name    = snowflake_warehouse.WAREHOUSE.name
-  privilege         = var.warehouse_grant_priviledge
-  roles             = var.warehouse_roles
+  privilege         = each.key
+  roles             = each.value
   with_grant_option = var.snowflake_role_with_grant_option
+}
+
+output "WH_name" {
+
+  value = snowflake_warehouse.WAREHOUSE.name
+
 }

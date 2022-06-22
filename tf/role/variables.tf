@@ -1,5 +1,5 @@
 variable "role_name" {
-  type = string
+  type = list(string)
 }
 
 variable "role_grant_to" {

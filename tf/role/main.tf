@@ -8,16 +8,19 @@ terraform {
 }
 
 resource "snowflake_role" "ROLE" {
-  name = var.role_name
+  for_each = toset(var.role_name)
+  name     = each.key
 }
 
 resource "snowflake_role_grants" "ROLE-GRANT" {
-  role_name = snowflake_role.ROLE.name
-  roles = var.role_grant_to
+  for_each  = { for i, j in snowflake_role.ROLE : i => j.name }
+  role_name = each.value
+  roles     = var.role_grant_to
 }
 
-output "ROLE_NAME" {
-  value = snowflake_role.ROLE.name
+output "ROLES_MAP" {
+  value = { for i, j in snowflake_role.ROLE : i => j.name }
 }
+
 
 
