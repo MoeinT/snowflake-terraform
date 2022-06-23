@@ -18,7 +18,7 @@ module "WH_ROLES" {
 }
 
 
-module "DB_practice" {
+module "DB_SCHEMA" {
     
     source = "./database"
     DB_name = "DB_teams"
@@ -36,11 +36,11 @@ module "DB_practice" {
 }
 
 output "DB_name_debug" {
-    value = module.DB_practice.DB_name
+    value = module.DB_SCHEMA.DB_name
 }
 
 output "SCHEMA_name_debug" {
-    value = module.DB_practice.SCHEMA_name
+    value = module.DB_SCHEMA.SCHEMA_name["FACEBOOK"]
 }
 
 module "ALL_USERS" {
