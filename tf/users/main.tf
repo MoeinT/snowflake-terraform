@@ -10,9 +10,9 @@ terraform {
 resource "snowflake_user" "USERS" {
   for_each             = var.all_users
   name                 = each.value.first_name
-  login_name           = each.value.first_name
+  login_name           = each.value.login_name
   display_name         = "${each.value.first_name} ${each.value.last_name}"
-  email                = "user@snowflake.example"
+  email                = each.value.email
   first_name           = each.value.first_name
   last_name            = each.value.last_name
   password             = lookup(each.value, "password", "p}Em9U!(3+!F2JET")

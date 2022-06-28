@@ -16,6 +16,9 @@ resource "snowflake_role_grants" "ROLE-GRANT" {
   for_each  = { for i, j in snowflake_role.ROLE : i => j.name }
   role_name = each.value
   roles     = var.role_grant_to
+  depends_on = [
+    snowflake_role.ROLE
+  ]
 }
 
 output "ROLES_MAP" {
