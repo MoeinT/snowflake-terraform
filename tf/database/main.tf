@@ -24,18 +24,18 @@ resource "snowflake_database_grant" "DB-GRANT" {
 #SCHEMAS and GRANTS
 
 resource "snowflake_schema" "SCHEMA" {
-  for_each = toset(var.schema_names)
-  database = snowflake_database.DATABASE.name
-  name     = each.key
+  for_each            = toset(var.schema_names)
+  database            = snowflake_database.DATABASE.name
+  name                = each.key
   data_retention_days = var.SCHEMA_data_retention_days
 }
 
 resource "snowflake_schema_grant" "SCHEMA-GRANT" {
-  for_each      = var.schema_grants
-  database_name = snowflake_database.DATABASE.name
-  schema_name   = split(" ", each.key)[0]
-  privilege     = join(" ", slice(split(" ", each.key), 1, length(split(" ", each.key))))
-  roles         = each.value.roles
+  for_each          = var.schema_grants
+  database_name     = snowflake_database.DATABASE.name
+  schema_name       = split(" ", each.key)[0]
+  privilege         = join(" ", slice(split(" ", each.key), 1, length(split(" ", each.key))))
+  roles             = each.value.roles
   with_grant_option = var.SCHEMA_with_grant_option
   depends_on = [
     snowflake_schema.SCHEMA
@@ -43,9 +43,9 @@ resource "snowflake_schema_grant" "SCHEMA-GRANT" {
 }
 
 output "DB_name" {
-    value = snowflake_database.DATABASE.name
+  value = snowflake_database.DATABASE.name
 }
 
 output "SCHEMA_name" {
-    value = snowflake_schema.SCHEMA
+  value = { for i, j in snowflake_schema.SCHEMA : i => j.name }
 }

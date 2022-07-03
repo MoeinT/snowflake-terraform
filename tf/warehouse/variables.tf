@@ -4,7 +4,7 @@ variable "warehouse_name" {
 
 variable "warehouse_size" {
   type    = string
-  default = "X-small"
+  default = "X-Small"
 }
 
 variable "warehouse_auto_suspend" {
