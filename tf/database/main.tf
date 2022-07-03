@@ -47,5 +47,5 @@ output "DB_name" {
 }
 
 output "SCHEMA_name" {
-  value = {for i, j in snowflake_schema.SCHEMA: i => j.name}
+  value = { for i, j in snowflake_schema.SCHEMA : i => j.name }
 }
