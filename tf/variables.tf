@@ -14,6 +14,6 @@ variable "snowflake_account" {
 }
 
 variable "name" {
-  type = string 
+  type    = string
   default = "Moein"
 }
